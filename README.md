@@ -38,23 +38,6 @@ Navigate through a comprehensive curriculum via the sidebar:
 * **Responsive Layout:** Works seamlessly on desktop and tablet sizes.
 * **Loading Animations:** Cyber-styled loading sequences for an immersive experience.
 
----
-
-## 📸 Screenshots
-
-### 1. The Dashboard & Terminal
-*A fully functional terminal environment with file system and branch visualization.*
-![Dashboard](Screenshot%202026-02-10%20115629.png)
-
-### 2. Interactive Learning Cards
-*Step-by-step guides with instant execution buttons.*
-![Setup Module](Screenshot%202026-02-10%20115649.png)
-
-### 3. Pro Tricks Section
-*Learn secret URL hacks and keyboard shortcuts to boost productivity.*
-![Pro Tricks](Screenshot%202026-02-10%20115700.png)
-
----
 
 ## 🛠️ Technology Stack
 
@@ -69,4 +52,4 @@ Navigate through a comprehensive curriculum via the sidebar:
 
 1. **Clone the repository** (or download the ZIP):
    ```bash
-   git clone [https://github.com/yourusername/mr-ai-verse-git-mastery.git](https://github.com/yourusername/mr-ai-verse-git-mastery.git)
+   git clone [https://github.com/manishragella/git-learning.git](https://github.com/manishragella/git-learning.git)
