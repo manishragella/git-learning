@@ -1,0 +1,1631 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR.AI Verse - Git Mastery Platform</title>
+    <style>
+        :root {
+            /* Glass Theme Colors */
+            --bg-dark: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --accent-glow: rgba(120, 119, 198, 0.3);
+            --accent-color: #a78bfa;
+            --success-color: #4ade80;
+            --danger-color: #f87171;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-dark);
+            /* Background blobs for glass effect */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.4), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 128, 0.2), transparent 25%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Utility */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            height: 50px; 
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.5));
+        }
+
+        .brand-text {
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: none; 
+        }
+
+        .reset-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .reset-btn:hover {
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .nav-btn {
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: white;
+        }
+
+        .nav-btn.active {
+            background: rgba(167, 139, 250, 0.15);
+            border-color: rgba(167, 139, 250, 0.3);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Terminal */
+        .terminal-window {
+            background: rgba(10, 10, 10, 0.95);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-family: 'Fira Code', 'Courier New', monospace;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            height: 450px;
+        }
+
+        .terminal-bar {
+            background: rgba(255,255,255,0.05);
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .terminal-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            color: #d4d4d8;
+            font-size: 0.95rem;
+        }
+
+        .line { margin-bottom: 6px; line-height: 1.5; }
+        .line.cmd { color: #fff; font-weight: bold; }
+        .line.cmd::before { content: "➜ "; color: var(--accent-color); margin-right: 8px; }
+        .line.success { color: var(--success-color); }
+        .line.error { color: var(--danger-color); }
+        .line.info { color: var(--text-muted); font-style: italic; }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .prompt { color: var(--accent-color); margin-right: 10px; font-weight: bold; }
+        
+        #termInput {
+            background: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* Commands Grid */
+        .cmd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .cmd-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s;
+        }
+        .cmd-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+        }
+
+        .code-box {
+            background: rgba(0,0,0,0.3);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .try-btn {
+            background: var(--text-main);
+            color: black;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .try-btn:hover { opacity: 1; transform: scale(1.05); }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container { grid-template-columns: 1fr; padding: 1rem; }
+            .sidebar { position: static; display: flex; overflow-x: auto; padding: 1rem; margin-bottom: 1rem; gap: 1rem; border-radius: 12px; }
+            .nav-title { display: none; }
+            .nav-btn { white-space: nowrap; width: auto; margin: 0; padding: 0.5rem 1.2rem; }
+            .brand-text { display: block; font-size: 1rem; }
+        }
+
+        @media (max-width: 600px) {
+            .header { padding: 1rem; }
+            .brand-text { display: none; }
+            .terminal-window { height: 350px; }
+            .cmd-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Helper for Visualization */
+        .fs-view { display: flex; flex-direction: column; gap: 8px; }
+        .fs-item { display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 6px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <header class="header glass-panel">
+        <div class="logo-container">
+            <img src="mr aiverse logo png.png" alt="MR.AI Verse Logo" class="logo-img">
+            <span class="brand-text">MR.AI VERSE</span>
+        </div>
+        <button class="reset-btn" onclick="system.reset()">⚡ Reset System</button>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar glass-panel">
+            <div class="nav-title">Modules</div>
+            <button class="nav-btn active" onclick="ui.showSection('intro')">Intro</button>
+            <button class="nav-btn" onclick="ui.showSection('setup')">Setup</button>
+            <button class="nav-btn" onclick="ui.showSection('basics')">Basics</button>
+            <button class="nav-btn" onclick="ui.showSection('branching')">Branching</button>
+            <button class="nav-btn" onclick="ui.showSection('remote')">Remote</button>
+            <button class="nav-btn" onclick="ui.showSection('advanced')">Advanced</button>
+            <div class="nav-title" style="margin-top:1.5rem">Extras</div>
+            <button class="nav-btn" onclick="ui.showSection('tricks')">★ Pro Tricks</button>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="terminal-window">
+                <div class="terminal-bar">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span style="margin-left:auto; font-size:0.8rem; color:rgba(255,255,255,0.3)">bash — interactive</span>
+                </div>
+                <div id="terminalOutput" class="terminal-content">
+                    <div class="line info">Welcome to MR.AI Verse Git Terminal v2.1</div>
+                    <div class="line info">Type 'help' for commands. Start by initializing a repo.</div>
+                </div>
+                <div class="input-line">
+                    <span class="prompt">➜</span>
+                    <input type="text" id="termInput" autocomplete="off" placeholder="git init...">
+                </div>
+            </section>
+
+            <div id="statusPanels" style="display:none; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="card glass-panel">
+                    <div class="card-header"><h3 style="font-size:1rem; color:var(--text-muted)">📁 File System</h3></div>
+                    <div id="fsView" class="fs-view"></div>
+                </div>
+                <div class="card glass-panel">
+                    <div class="card-header">
+                        <h3 style="font-size:1rem; color:var(--text-muted)">🌿 Branch: <span id="currentBranch" style="color:var(--accent-color)">-</span></h3>
+                    </div>
+                    <div id="logView" style="font-family:monospace; font-size:0.85rem; color:rgba(255,255,255,0.6)"></div>
+                </div>
+            </div>
+
+            <div id="contentArea"></div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 MR.AI Verse. All rights reserved.</p>
+        <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 0.5rem;">Designed for Interactive Learning</p>
+    </footer>
+
+<script>
+/* ========================================
+   LOGIC ENGINE
+   ======================================== */
+const system = {
+    state: {
+        init: false,
+        files: {},
+        staged: [],
+        commits: [],
+        branches: ['main'],
+        currentBranch: 'main',
+        remotes: {}
+    },
+
+    reset: function() {
+        this.state = { init: false, files: {}, staged: [], commits: [], branches: ['main'], currentBranch: 'main', remotes: {} };
+        ui.print("System Reset. Environment clean.", "info");
+        ui.updateVisuals();
+    },
+
+    // Commands
+    cmd: {
+        git: (args) => {
+            const s = system.state;
+            const op = args[0];
+
+            if(op === 'init') {
+                if(s.init) return "Reinitialized existing Git repository";
+                s.init = true;
+                return "Initialized empty Git repository in /project/.git/";
+            }
+
+            if(!s.init) return "fatal: not a git repository (or any of the parent directories): .git";
+
+            switch(op) {
+                case 'status':
+                    let out = `On branch ${s.currentBranch}`;
+                    const untracked = Object.keys(s.files).filter(f => !s.staged.includes(f) && !s.files[f].tracked);
+                    const staged = s.staged;
+                    
+                    if(staged.length) {
+                        out += `\nChanges to be committed:\n  (use "git restore --staged <file>..." to unstage)\n`;
+                        staged.forEach(f => out += `\t<span style="color:#4ade80">new file:   ${f}</span>\n`);
+                    }
+                    if(untracked.length) {
+                        out += `\nUntracked files:\n  (use "git add <file>..." to include in what will be committed)\n`;
+                        untracked.forEach(f => out += `\t<span style="color:#f87171">${f}</span>\n`);
+                    }
+                    if(!staged.length && !untracked.length) out += "\nnothing to commit, working tree clean";
+                    return out;
+
+                case 'add':
+                    if(args[1] === '.') {
+                        s.staged = Object.keys(s.files);
+                    } else if(s.files[args[1]]) {
+                        if(!s.staged.includes(args[1])) s.staged.push(args[1]);
+                    } else {
+                        return `fatal: pathspec '${args[1]}' did not match any files`;
+                    }
+                    return "";
+
+                case 'commit':
+                    if(s.staged.length === 0) return "On branch " + s.currentBranch + "\nnothing to commit, working tree clean";
+                    const msgIdx = args.indexOf('-m');
+                    const msg = msgIdx > -1 ? args.slice(msgIdx+1).join(" ").replace(/"/g,'') : "Update";
+                    const hash = Math.random().toString(16).substr(2, 7);
+                    
+                    s.commits.unshift({ hash, msg, author: "User", date: new Date().toLocaleTimeString() });
+                    s.staged.forEach(f => s.files[f].tracked = true);
+                    s.staged = [];
+                    return `[${s.currentBranch} ${hash}] ${msg}`;
+
+                case 'branch':
+                    if(!args[1]) return s.branches.map(b => b === s.currentBranch ? `* <span style="color:#4ade80">${b}</span>` : `  ${b}`).join("\n");
+                    if(!s.branches.includes(args[1])) s.branches.push(args[1]);
+                    return "";
+
+                case 'checkout':
+                    let b = args[1];
+                    if(args[1] === '-b') {
+                        b = args[2];
+                        if(!s.branches.includes(b)) s.branches.push(b);
+                    }
+                    if(s.branches.includes(b)) {
+                        s.currentBranch = b;
+                        return `Switched to branch '${b}'`;
+                    }
+                    return `error: pathspec '${b}' did not match any file(s) known to git`;
+
+                case 'remote':
+                    if(args[1] === 'add') { s.remotes[args[2]] = args[3]; return ""; }
+                    if(args[1] === '-v') return Object.entries(s.remotes).map(([n,u]) => `${n}\t${u} (fetch)\n${n}\t${u} (push)`).join("\n");
+                    return "";
+                
+                case 'push': return "Enumerating objects: 5, done.\nWriting objects: 100% (3/3), done.\nTo github.com:mr-aiverse/project.git\n * [new branch]      main -> main";
+                case 'pull': return "Already up to date.";
+                case 'log': 
+                    if(!s.commits.length) return "fatal: your current branch has no commits yet";
+                    return s.commits.map(c => `<span style="color:#fbbf24">commit ${c.hash}</span>\nAuthor: ${c.author}\nDate: ${c.date}\n\n    ${c.msg}`).join("\n\n");
+                
+                default: return `git: '${op}' is not a git command.`;
+            }
+        },
+        touch: (args) => {
+            if(!args[0]) return "usage: touch <filename>";
+            system.state.files[args[0]] = { tracked: false };
+            return "";
+        },
+        ls: () => Object.keys(system.state.files).join("  "),
+        clear: () => { ui.clear(); return ""; }
+    },
+
+    run: function(input) {
+        if(!input.trim()) return;
+        ui.print(input, "cmd");
+        const parts = input.trim().split(" ");
+        const cmd = parts[0];
+        const args = parts.slice(1);
+        
+        let output = "";
+        let style = "success";
+
+        if(cmd === 'git') {
+            output = this.cmd.git(args);
+        } else if(this.cmd[cmd]) {
+            output = this.cmd[cmd](args);
+        } else {
+            output = `command not found: ${cmd}`;
+            style = "error";
+        }
+
+        if(output) ui.print(output, style);
+        ui.updateVisuals();
+    }
+};
+
+/* ========================================
+   UI CONTROLLER
+   ======================================== */
+const ui = {
+    output: document.getElementById('terminalOutput'),
+    
+    print: function(txt, type) {
+        if(!txt) return;
+        const div = document.createElement('div');
+        div.className = `line ${type}`;
+        div.innerHTML = txt.replace(/\n/g, '<br>');
+        this.output.appendChild(div);
+        this.output.scrollTop = this.output.scrollHeight;
+    },
+
+    clear: function() { this.output.innerHTML = ''; },
+
+    updateVisuals: function() {
+        const s = system.state;
+        const panel = document.getElementById('statusPanels');
+        
+        if(s.init) {
+            panel.style.display = 'grid';
+            document.getElementById('currentBranch').innerText = s.currentBranch;
+            
+            // File System
+            const fsEl = document.getElementById('fsView');
+            fsEl.innerHTML = Object.keys(s.files).length ? '' : '<span style="color:#555">Empty directory</span>';
+            
+            Object.keys(s.files).forEach(f => {
+                const isStaged = s.staged.includes(f);
+                const isTracked = s.files[f].tracked;
+                let status = isStaged ? '<span style="color:#4ade80">staged</span>' : (isTracked ? '<span>tracked</span>' : '<span style="color:#f87171">untracked</span>');
+                
+                fsEl.innerHTML += `
+                    <div class="fs-item">
+                        <span>📄 ${f}</span>
+                        <div style="font-size:0.75rem">${status}</div>
+                    </div>`;
+            });
+
+            // Commit Log
+            const logEl = document.getElementById('logView');
+            logEl.innerHTML = s.commits.length ? 
+                s.commits.slice(0,3).map(c => `<div><span style="color:#fbbf24">${c.hash}</span> ${c.msg}</div>`).join('') :
+                'No commits yet';
+        } else {
+            panel.style.display = 'none';
+        }
+    },
+
+    showSection: function(id) {
+        // Nav State
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const content = document.getElementById('contentArea');
+        const data = sections[id];
+        
+        if(id === 'tricks') {
+            let html = `<div class="card glass-panel"><div class="card-header"><h2 class="card-title">💡 GitHub Pro Tricks</h2></div><div class="cmd-grid">`;
+            data.forEach(t => {
+                html += `
+                <div class="cmd-card">
+                    <h4 style="margin-bottom:0.5rem; color:#fff">${t.title}</h4>
+                    <span class="code-box">${t.key}</span>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin:0.5rem 0;">${t.desc}</p>
+                    <div style="font-size:0.75rem; color:var(--accent-color); opacity:0.8; font-family:monospace; word-break:break-all;">${t.example}</div>
+                </div>`;
+            });
+            content.innerHTML = html + "</div></div>";
+            return;
+        }
+
+        let html = `
+            <div class="card glass-panel">
+                <div class="card-header"><h2 class="card-title">${data.icon || '📘'} ${data.title}</h2></div>
+                <div class="cmd-grid">
+        `;
+        
+        data.cmds.forEach(c => {
+            html += `
+                <div class="cmd-card">
+                    <span class="code-box">${c.code}</span>
+                    <p style="font-size:0.85rem; color:var(--text-muted)">${c.desc}</p>
+                    <button class="try-btn" onclick="ui.type('${c.code.replace(/'/g, "\\'")}')">Try it</button>
+                </div>
+            `;
+        });
+        
+        content.innerHTML = html + "</div></div>";
+    },
+
+    type: function(txt) {
+        const inp = document.getElementById('termInput');
+        inp.value = txt;
+        inp.focus();
+        system.run(txt);
+        inp.value = '';
+    }
+};
+
+/* ========================================
+   CONTENT DATA
+   ======================================== */
+const sections = {
+    intro: {
+        title: "Introduction", icon: "🚀",
+        cmds: [
+            { code: "git --version", desc: "Check if Git is installed" },
+            { code: "mkdir my-project", desc: "Create a project folder" },
+            { code: "cd my-project", desc: "Enter the folder" }
+        ]
+    },
+    setup: {
+        title: "Setup", icon: "⚙️",
+        cmds: [
+            { code: 'git config --global user.name "Your Name"', desc: "Set username" },
+            { code: 'git config --global user.email "you@mail.com"', desc: "Set email" }
+        ]
+    },
+    basics: {
+        title: "Basics", icon: "✨",
+        cmds: [
+            { code: "git init", desc: "Start tracking current folder" },
+            { code: "touch index.html", desc: "Create a file" },
+            { code: "git status", desc: "Check what changed" },
+            { code: "git add index.html", desc: "Stage file for commit" },
+            { code: "git commit -m 'First commit'", desc: "Save snapshot" }
+        ]
+    },
+    branching: {
+        title: "Branching", icon: "🌿",
+        cmds: [
+            { code: "git branch", desc: "List branches" },
+            { code: "git branch feature", desc: "Create 'feature' branch" },
+            { code: "git checkout feature", desc: "Switch to branch" }
+        ]
+    },
+    remote: {
+        title: "Remote (GitHub)", icon: "☁️",
+        cmds: [
+            { code: "git remote add origin https://github.com/...", desc: "Link to GitHub repo" },
+            { code: "git push -u origin main", desc: "Upload code" },
+            { code: "git pull", desc: "Download changes" }
+        ]
+    },
+    advanced: {
+        title: "Advanced", icon: "🔥",
+        cmds: [
+            { code: "git stash", desc: "Save changes for later" },
+            { code: "git log", desc: "View full history" },
+            { code: "git reset --hard", desc: "Delete unsaved changes" }
+        ]
+    },
+    tricks: [
+        { 
+            title: "VS Code in Browser", 
+            key: "Press . (dot) or change .com → .dev", 
+            desc: "Instantly opens the repository in a web-based VS Code editor.",
+            example: "github.dev/user/repo" 
+        },
+        { 
+            title: "Quick VS Code Web", 
+            key: "Add 'vs' before github.com", 
+            desc: "Another fast way to launch VS Code web for the current repo.",
+            example: "vsgithub.com/user/repo" 
+        },
+        { 
+            title: "GitHub Codespaces", 
+            key: "Press , (comma)", 
+            desc: "Launches the repo in a cloud development environment (Codespaces).",
+            example: "Press ',' on repo page" 
+        },
+        { 
+            title: "GitHub 1s", 
+            key: "Replace .com → 1s.com", 
+            desc: "Opens the repo in a read-only VS Code environment (faster load).",
+            example: "github1s.com/user/repo" 
+        },
+        { 
+            title: "StackBlitz Instant", 
+            key: "Replace .com → .new", 
+            desc: "Run the project instantly in StackBlitz containers.",
+            example: "github.new/user/repo" 
+        },
+        { 
+            title: "GitPod Cloud IDE", 
+            key: "Prefix with gitpod.io/#", 
+            desc: "Opens the repo in a fully automated cloud dev environment.",
+            example: "gitpod.io/#https://github.com/user/repo" 
+        },
+        { 
+            title: "File Finder", 
+            key: "Press T", 
+            desc: "Fuzzy search through all files in the repository instantly.",
+            example: "Press 'T' on repo page" 
+        },
+        { 
+            title: "Blame View", 
+            key: "Press B (on file)", 
+            desc: "See who changed each line of code and in which commit.",
+            example: "Press 'B' when viewing a file" 
+        },
+        { 
+            title: "Permanent Link", 
+            key: "Press Y", 
+            desc: "Updates URL to a permanent SHA-link (good for sharing code).",
+            example: "github.com/user/repo/blob/abc1234/file.js" 
+        },
+        { 
+            title: "Keyboard Shortcuts", 
+            key: "Press ?", 
+            desc: "Displays a modal with all available GitHub keyboard shortcuts.",
+            example: "Press '?' anywhere" 
+        },
+        { 
+            title: "Compare Branches", 
+            key: "Add /compare to URL", 
+            desc: "Compare two branches or tags to see differences.",
+            example: "github.com/user/repo/compare/main...dev" 
+        },
+        { 
+            title: "Search Code", 
+            key: "Press /", 
+            desc: "Activates the search bar for repo-wide code search.",
+            example: "Press '/' to search" 
+        }
+    ]
+};
+
+// Input Listener
+document.getElementById('termInput').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') { system.run(e.target.value); e.target.value = ''; }
+});
+
+// Init
+ui.showSection('basics');
+
+</script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR.AI Verse - Git & GitHub Mastery Hub</title>
+    <style>
+        :root {
+            /* Glass Theme Colors */
+            --bg-dark: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --accent-glow: rgba(120, 119, 198, 0.3);
+            --accent-color: #a78bfa; /* Light Purple */
+            --accent-secondary: #8b5cf6; /* Deep Purple */
+            --success-color: #4ade80;
+            --danger-color: #f87171;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-dark);
+            /* Background blobs for glass effect */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.4), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 128, 0.2), transparent 25%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- LOADING SCREEN --- */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease-out;
+        }
+        .spinner-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 4px solid transparent;
+        }
+        .ring-1 {
+            width: 100px; height: 100px;
+            border-top-color: var(--accent-color);
+            animation: spin 2s linear infinite;
+        }
+        .ring-2 {
+            width: 80px; height: 80px;
+            border-bottom-color: var(--success-color);
+            animation: spin 3s linear infinite reverse;
+        }
+        .loading-text {
+            margin-top: 140px;
+            font-family: monospace;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            animation: blink 1.5s infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Glassmorphism Utility */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 1rem; }
+
+        .logo-img {
+            height: 50px; 
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.5));
+        }
+
+        .brand-text {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #fff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reset-btn {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            color: #fca5a5;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .reset-btn:hover {
+            background: rgba(248, 113, 113, 0.2);
+            box-shadow: 0 0 15px rgba(248, 113, 113, 0.2);
+        }
+
+        /* Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .nav-btn {
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.05); color: white; }
+        .nav-btn.active {
+            background: rgba(167, 139, 250, 0.15);
+            border-color: rgba(167, 139, 250, 0.3);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .card {
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Terminal */
+        .terminal-window {
+            background: rgba(10, 10, 10, 0.95);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-family: 'Fira Code', 'Courier New', monospace;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            height: 450px;
+        }
+        .terminal-bar {
+            background: rgba(255,255,255,0.05);
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .terminal-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            color: #d4d4d8;
+            font-size: 0.95rem;
+        }
+
+        .line { margin-bottom: 6px; line-height: 1.5; }
+        .line.cmd { color: #fff; font-weight: bold; }
+        .line.cmd::before { content: "➜ "; color: var(--accent-color); margin-right: 8px; }
+        .line.success { color: var(--success-color); }
+        .line.error { color: var(--danger-color); }
+        .line.info { color: var(--text-muted); font-style: italic; }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .prompt { color: var(--accent-color); margin-right: 10px; font-weight: bold; }
+        #termInput {
+            background: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* Commands Grid & NEW Cards */
+        .cmd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cmd-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .cmd-card:hover {
+            background: rgba(255,255,255,0.06);
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cmd-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 40px;
+        }
+
+        /* New Code Box Layout */
+        .code-box-wrapper {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+        }
+        .code-text {
+            font-family: monospace;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .copy-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+        /* New Run Button */
+        .run-btn {
+            background: linear-gradient(90deg, #a78bfa, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: auto;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+        .run-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: var(--success-color);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.3s;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Visualization Helper */
+        .fs-view { display: flex; flex-direction: column; gap: 8px; }
+        .fs-item { display: flex; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 6px; font-size: 0.9rem; }
+        
+        @media (max-width: 1024px) {
+            .container { grid-template-columns: 1fr; padding: 1rem; }
+            .sidebar { position: static; display: flex; overflow-x: auto; padding: 1rem; margin-bottom: 1rem; gap: 1rem; border-radius: 12px; }
+            .nav-title { display: none; }
+            .nav-btn { white-space: nowrap; width: auto; margin: 0; padding: 0.5rem 1.2rem; }
+        }
+        @media (max-width: 600px) {
+            .header { padding: 1rem; }
+            .brand-text { font-size: 1rem; } 
+            .terminal-window { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner-ring ring-1"></div>
+        <div class="spinner-ring ring-2"></div>
+        <div class="loading-text">LOADING SYSTEM...</div>
+    </div>
+
+    <div id="toast">📋 Copied!</div>
+
+    <header class="header glass-panel">
+        <div class="logo-container">
+            <img src="mr aiverse logo png.png" alt="MR.AI Verse Logo" class="logo-img">
+            <span class="brand-text">Git & GitHub Mastery Hub</span>
+        </div>
+        <button class="reset-btn" onclick="system.hardReset()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            Reset System
+        </button>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar glass-panel">
+            <div class="nav-title">Modules</div>
+            <button class="nav-btn active" onclick="ui.showSection('intro')">Intro</button>
+            <button class="nav-btn" onclick="ui.showSection('setup')">Setup</button>
+            <button class="nav-btn" onclick="ui.showSection('basics')">Basics</button>
+            <button class="nav-btn" onclick="ui.showSection('branching')">Branching</button>
+            <button class="nav-btn" onclick="ui.showSection('remote')">Remote</button>
+            <button class="nav-btn" onclick="ui.showSection('advanced')">Advanced</button>
+            <div class="nav-title" style="margin-top:1.5rem">Extras</div>
+            <button class="nav-btn" onclick="ui.showSection('tricks')">★ Pro Tricks</button>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="terminal-window">
+                <div class="terminal-bar">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                    <span style="margin-left:auto; font-size:0.8rem; color:rgba(255,255,255,0.3)">bash — interactive</span>
+                </div>
+                <div id="terminalOutput" class="terminal-content">
+                    <div class="line info">Welcome to MR.AI Verse Git Terminal v2.1</div>
+                    <div class="line info">Type 'help' for commands. Start by initializing a repo.</div>
+                </div>
+                <div class="input-line">
+                    <span class="prompt">➜</span>
+                    <input type="text" id="termInput" autocomplete="off" placeholder="git init...">
+                </div>
+            </section>
+
+            <div id="statusPanels" style="display:none; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="card glass-panel">
+                    <div class="card-header"><h3 style="font-size:1rem; color:var(--text-muted)">📁 File System</h3></div>
+                    <div id="fsView" class="fs-view"></div>
+                </div>
+                <div class="card glass-panel">
+                    <div class="card-header">
+                        <h3 style="font-size:1rem; color:var(--text-muted)">🌿 Branch: <span id="currentBranch" style="color:var(--accent-color)">-</span></h3>
+                    </div>
+                    <div id="logView" style="font-family:monospace; font-size:0.85rem; color:rgba(255,255,255,0.6)"></div>
+                </div>
+            </div>
+
+            <div id="contentArea"></div>
+
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 MR.AI Verse. All rights reserved.</p>
+        <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 0.5rem;">Designed for Interactive Learning</p>
+    </footer>
+
+<script>
+/* ========================================
+   LOADER & INIT
+   ======================================== */
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.display = 'none'; }, 800);
+    }, 1200);
+});
+
+/* ========================================
+   LOGIC ENGINE
+   ======================================== */
+const system = {
+    state: {
+        init: false,
+        files: {},
+        staged: [],
+        commits: [],
+        branches: ['main'],
+        currentBranch: 'main',
+        remotes: {}
+    },
+
+    hardReset: function() {
+        this.state = { init: false, files: {}, staged: [], commits: [], branches: ['main'], currentBranch: 'main', remotes: {} };
+        const term = document.getElementById('terminalOutput');
+        term.innerHTML = `
+            <div class="line info">Welcome to MR.AI Verse Git Terminal v2.1</div>
+            <div class="line info">Type 'help' for commands. Start by initializing a repo.</div>
+            <div class="line success" style="margin-top:10px">✓ System Reset. Environment Clean.</div>
+        `;
+        ui.updateVisuals();
+    },
+
+    // Commands Logic
+    cmd: {
+        git: (args) => {
+            const s = system.state;
+            const op = args[0];
+
+            if(op === 'init') {
+                if(s.init) return "Reinitialized existing Git repository";
+                s.init = true;
+                return "Initialized empty Git repository in /project/.git/";
+            }
+
+            if(!s.init) return "fatal: not a git repository (or any of the parent directories): .git";
+
+            switch(op) {
+                case 'status':
+                    let out = `On branch ${s.currentBranch}`;
+                    const untracked = Object.keys(s.files).filter(f => !s.staged.includes(f) && !s.files[f].tracked);
+                    const staged = s.staged;
+                    
+                    if(staged.length) {
+                        out += `\nChanges to be committed:\n`;
+                        staged.forEach(f => out += `\t<span style="color:#4ade80">new file:   ${f}</span>\n`);
+                    }
+                    if(untracked.length) {
+                        out += `\nUntracked files:\n`;
+                        untracked.forEach(f => out += `\t<span style="color:#f87171">${f}</span>\n`);
+                    }
+                    if(!staged.length && !untracked.length) out += "\nnothing to commit, working tree clean";
+                    return out;
+
+                case 'add':
+                    if(!args[1]) return "Nothing specified to add.";
+                    if(args[1] === '.') {
+                        s.staged = Object.keys(s.files);
+                    } else if(s.files[args[1]]) {
+                        if(!s.staged.includes(args[1])) s.staged.push(args[1]);
+                    } else {
+                        return `fatal: pathspec '${args[1]}' did not match any files`;
+                    }
+                    return "";
+
+                case 'commit':
+                    if(s.staged.length === 0) return "On branch " + s.currentBranch + "\nnothing to commit, working tree clean";
+                    const msgIdx = args.indexOf('-m');
+                    const msg = msgIdx > -1 ? args.slice(msgIdx+1).join(" ").replace(/"/g,'') : "Update";
+                    const hash = Math.random().toString(16).substr(2, 7);
+                    
+                    s.commits.unshift({ hash, msg, author: "User", date: new Date().toLocaleTimeString() });
+                    s.staged.forEach(f => s.files[f].tracked = true);
+                    s.staged = [];
+                    return `[${s.currentBranch} ${hash}] ${msg}`;
+
+                case 'branch':
+                    if(!args[1]) return s.branches.map(b => b === s.currentBranch ? `* <span style="color:#4ade80">${b}</span>` : `  ${b}`).join("\n");
+                    if(!s.branches.includes(args[1])) s.branches.push(args[1]);
+                    return "";
+
+                case 'checkout':
+                    let b = args[1];
+                    if(args[1] === '-b') {
+                        b = args[2];
+                        if(!s.branches.includes(b)) s.branches.push(b);
+                    }
+                    if(s.branches.includes(b)) {
+                        s.currentBranch = b;
+                        return `Switched to branch '${b}'`;
+                    }
+                    return `error: pathspec '${b}' did not match any file(s) known to git`;
+
+                case 'remote':
+                    if(args[1] === 'add') { s.remotes[args[2]] = args[3]; return ""; }
+                    if(args[1] === '-v') return Object.entries(s.remotes).map(([n,u]) => `${n}\t${u} (fetch)\n${n}\t${u} (push)`).join("\n");
+                    return "";
+                
+                case 'push': return "Enumerating objects: 5, done.\nWriting objects: 100% (3/3), done.\nTo github.com:mr-aiverse/project.git\n * [new branch]      main -> main";
+                case 'pull': return "Already up to date.";
+                case 'log': 
+                    if(!s.commits.length) return "fatal: your current branch has no commits yet";
+                    return s.commits.map(c => `<span style="color:#fbbf24">commit ${c.hash}</span>\nAuthor: ${c.author}\nDate: ${c.date}\n\n    ${c.msg}`).join("\n\n");
+                
+                default: return `git: '${op}' is not a git command.`;
+            }
+        },
+        touch: (args) => {
+            if(!args[0]) return "usage: touch <filename>";
+            system.state.files[args[0]] = { tracked: false };
+            return "";
+        },
+        ls: () => Object.keys(system.state.files).join("  "),
+        clear: () => { ui.clear(); return ""; }
+    },
+
+    run: function(input) {
+        if(!input.trim()) return;
+        ui.print(input, "cmd");
+        const parts = input.trim().split(" ");
+        const cmd = parts[0];
+        const args = parts.slice(1);
+        
+        let output = "";
+        let style = "success";
+
+        try {
+            if(cmd === 'git') {
+                output = this.cmd.git(args);
+            } else if(this.cmd[cmd]) {
+                output = this.cmd[cmd](args);
+            } else {
+                output = `command not found: ${cmd}`;
+                style = "error";
+            }
+        } catch(e) {
+            output = "Error execution";
+            style = "error";
+        }
+
+        if(output) ui.print(output, style);
+        ui.updateVisuals();
+    }
+};
+
+/* ========================================
+   UI CONTROLLER
+   ======================================== */
+const ui = {
+    output: document.getElementById('terminalOutput'),
+    
+    print: function(txt, type) {
+        if(!txt) return;
+        const div = document.createElement('div');
+        div.className = `line ${type}`;
+        div.innerHTML = txt.replace(/\n/g, '<br>');
+        this.output.appendChild(div);
+        this.output.scrollTop = this.output.scrollHeight;
+    },
+
+    clear: function() { this.output.innerHTML = ''; },
+
+    copy: function(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+            }, 2000);
+        });
+    },
+
+    simulateTyping: function(text) {
+        const input = document.getElementById('termInput');
+        input.value = "";
+        input.focus();
+        let i = 0;
+        const speed = 30; 
+
+        function type() {
+            if (i < text.length) {
+                input.value += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                setTimeout(() => {
+                    system.run(text);
+                    input.value = "";
+                }, 400);
+            }
+        }
+        type();
+    },
+
+    updateVisuals: function() {
+        const s = system.state;
+        const panel = document.getElementById('statusPanels');
+        
+        if(s.init) {
+            panel.style.display = 'grid';
+            document.getElementById('currentBranch').innerText = s.currentBranch;
+            
+            const fsEl = document.getElementById('fsView');
+            fsEl.innerHTML = Object.keys(s.files).length ? '' : '<span style="color:#555">Empty directory</span>';
+            
+            Object.keys(s.files).forEach(f => {
+                const isStaged = s.staged.includes(f);
+                const isTracked = s.files[f].tracked;
+                let status = isStaged ? '<span style="color:#4ade80">staged</span>' : (isTracked ? '<span>tracked</span>' : '<span style="color:#f87171">untracked</span>');
+                
+                fsEl.innerHTML += `
+                    <div class="fs-item">
+                        <span>📄 ${f}</span>
+                        <div style="font-size:0.75rem">${status}</div>
+                    </div>`;
+            });
+
+            const logEl = document.getElementById('logView');
+            logEl.innerHTML = s.commits.length ? 
+                s.commits.slice(0,3).map(c => `<div><span style="color:#fbbf24">${c.hash}</span> ${c.msg}</div>`).join('') :
+                'No commits yet';
+        } else {
+            panel.style.display = 'none';
+        }
+    },
+
+    showSection: function(id) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const content = document.getElementById('contentArea');
+        const data = sections[id];
+        
+        let html = `
+            <div class="card glass-panel">
+                <div class="card-header"><h2 class="card-title">${data.icon || '📘'} ${data.title}</h2></div>
+                <div class="cmd-grid">
+        `;
+
+        if(id === 'tricks') {
+            data.cmds.forEach(t => {
+                html += `
+                <div class="cmd-card">
+                    <h4 style="color:#fff; font-size:1.1rem">${t.title}</h4>
+                    <p class="cmd-desc">${t.desc}</p>
+                    <div class="code-box-wrapper">
+                        <span class="code-text">${t.key}</span>
+                        <button class="copy-btn" onclick="ui.copy('${t.example}')" title="Copy">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                    </div>
+                    <div style="font-size:0.75rem; color:var(--accent-color); opacity:0.8; font-family:monospace; word-break:break-all;">${t.example}</div>
+                </div>`;
+            });
+        } else {
+            data.cmds.forEach(c => {
+                html += `
+                <div class="cmd-card">
+                    <p class="cmd-desc">${c.desc}</p>
+                    <div class="code-box-wrapper">
+                        <span class="code-text">${c.code}</span>
+                        <button class="copy-btn" onclick="ui.copy('${c.code.replace(/'/g, "\\'")}')" title="Copy">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        </button>
+                    </div>
+                    <button class="run-btn" onclick="ui.simulateTyping('${c.code.replace(/'/g, "\\'")}')">Run in Terminal</button>
+                </div>
+                `;
+            });
+        }
+        
+        content.innerHTML = html + "</div></div>";
+    }
+};
+
+/* ========================================
+   CONTENT DATA
+   ======================================== */
+const sections = {
+    intro: {
+        title: "Introduction", icon: "🚀",
+        cmds: [
+            { code: "git --version", desc: "Check if Git is installed" },
+            { code: "mkdir my-project", desc: "Create a project folder" },
+            { code: "cd my-project", desc: "Enter the folder" }
+        ]
+    },
+    setup: {
+        title: "Setup", icon: "⚙️",
+        cmds: [
+            { code: 'git config --global user.name "Your Name"', desc: "Set username" },
+            { code: 'git config --global user.email "you@mail.com"', desc: "Set email" }
+        ]
+    },
+    basics: {
+        title: "Basics", icon: "✨",
+        cmds: [
+            { code: "git init", desc: "Start tracking current folder" },
+            { code: "touch index.html", desc: "Create a file" },
+            { code: "git status", desc: "Check what changed" },
+            { code: "git add index.html", desc: "Stage file for commit" },
+            { code: "git commit -m 'First commit'", desc: "Save snapshot" }
+        ]
+    },
+    branching: {
+        title: "Branching", icon: "🌿",
+        cmds: [
+            { code: "git branch", desc: "List branches" },
+            { code: "git branch feature", desc: "Create 'feature' branch" },
+            { code: "git checkout feature", desc: "Switch to branch" }
+        ]
+    },
+    remote: {
+        title: "Remote (GitHub)", icon: "☁️",
+        cmds: [
+            { code: "git remote add origin https://github.com/...", desc: "Link to GitHub repo" },
+            { code: "git push -u origin main", desc: "Upload code" },
+            { code: "git pull", desc: "Download changes" }
+        ]
+    },
+    advanced: {
+        title: "Advanced", icon: "🔥",
+        cmds: [
+            { code: "git stash", desc: "Save changes for later" },
+            { code: "git log", desc: "View full history" },
+            { code: "git reset --hard", desc: "Delete unsaved changes" }
+        ]
+    },
+    tricks: {
+        title: "Pro Tricks", icon: "💡",
+        cmds: [
+            { title: "VS Code in Browser", key: "Press . (dot)", desc: "Open any repo in VS Code web.", example: "github.dev/user/repo" },
+            { title: "Quick VS Code Web", key: "Add 'vs' before github.com", desc: "Fast launch VS Code.", example: "vsgithub.com/user/repo" },
+            { title: "GitHub Codespaces", key: "Press , (comma)", desc: "Launch cloud dev environment.", example: "Press ',' on repo" },
+            { title: "GitHub 1s", key: "Change .com -> 1s.com", desc: "Read-only fast code viewer.", example: "github1s.com/user/repo" },
+            { title: "StackBlitz", key: "Change .com -> .new", desc: "Run project in browser.", example: "github.new/user/repo" },
+            { title: "GitPod", key: "Prefix gitpod.io/#", desc: "Automated cloud workspace.", example: "gitpod.io/#github.com/u/r" },
+            { title: "File Finder", key: "Press T", desc: "Fuzzy find files instantly.", example: "Press 'T' on repo" },
+            { title: "Blame View", key: "Press B (on file)", desc: "See who changed what line.", example: "Press 'B' on file" },
+            { title: "Permanent Link", key: "Press Y", desc: "Get permalink to current file version.", example: "github.com/.../blob/sha/..." },
+            { title: "Shortcuts", key: "Press ?", desc: "Show keyboard shortcuts dialog.", example: "Press '?' anywhere" },
+            { title: "Compare", key: "Add /compare", desc: "Compare branches/tags.", example: "github.com/u/r/compare/main...dev" },
+            { title: "Code Search", key: "Press /", desc: "Activate search bar.", example: "Press '/' to search" }
+        ]
+    }
+};
+
+// Input Listener
+document.getElementById('termInput').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') { system.run(e.target.value); e.target.value = ''; }
+});
+
+// Init
+ui.showSection('intro');
+
+</script>
+</body>
+</html>
