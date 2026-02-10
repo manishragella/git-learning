@@ -1,3 +1,3 @@
 # git-learning
 
-<img width="1752" height="924" alt="image" src="https://github.com/user-attachments/assets/8f71db48-f4ab-4159-ba8a-10138a2b429e" />
+<img width="1280" height="640" alt="Git Learning" src="https://github.com/user-attachments/assets/2c3a8473-59c7-4d2e-a46d-fec04592b5cb" />
